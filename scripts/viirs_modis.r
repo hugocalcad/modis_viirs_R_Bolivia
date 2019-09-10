@@ -72,4 +72,4 @@ df_viirs_new <- as.data.frame(sf_viirs_ecor)
 df_modis_new <- as.data.frame(sf_modis_ecor)
 
 save(df_viirs_new, file='viirs_all_cols_090920109.Rda')
-save(df_modis_new), file='modis_all_cols_090920109.Rda'
+save(df_modis_new, file='modis_all_cols_090920109.Rda')
