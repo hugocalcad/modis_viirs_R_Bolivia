@@ -3,14 +3,18 @@
 
 library(sf)
 library(tidyverse)
+library(here)
 
-load('viirs_all_09092019.Rda')
-load('modis_all_09092019.Rda')
+# load .rdas
+load('data/modis_all_09092019.Rda')
+load('data/viirs_all_09092019.Rda')
 
-##ver la estructura
+# ver la estructura
 str(modis_final)
 str(viirs_final)
 
-#conveitiendo la columnas de las fechas
+# convirtiendo la columnas de las fechas
 modis_final$acq_date <- as.Date(modis_final$acq_date, format = '%Y-%m-%d')
 viirs_final$acq_date <- as.Date(viirs_final$acq_date, format = '%Y-%m-%d')
+
+
