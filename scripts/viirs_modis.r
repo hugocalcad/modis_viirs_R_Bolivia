@@ -6,6 +6,7 @@ library(tidyverse)
 library(here)
 library(ggplot2)
 library(lubridate)
+library(ggmap)
 
 # load .rdas
 load('data/modis_all_09092019.Rda')
