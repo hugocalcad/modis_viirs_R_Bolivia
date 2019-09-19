@@ -1,0 +1,76 @@
+---
+title: "time_series_fire"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(lubridate)
+library(tseries)
+
+
+```
+
+## R Markdown
+
+
+
+```{r data}
+# Load MODIS data
+load('data/modis_all_cols_090920109.Rda')
+glimpse(df_modis_new)
+# format date
+modis_final$acq_date <- as.Date(modis_final$acq_date, format = '%Y-%m-%d')
+
+# Calculate number of fires per month
+fire_month <- df_modis_new %>%
+  mutate(month = month(acq_date),
+         year = year(acq_date)) %>%
+  group_by(year, month, Ecoreg_ibich) %>%
+  summarize(fires = n())
+```
+
+```{r bsc}
+bsc = fire_month %>%
+  filter(Ecoreg_ibich == 'Bosque Seco Chiquitano') %>%
+  select(-Ecoreg_ibich)
+
+fire_bsc <- ts(bsc$fires, frequency = 12, start = c(2000, 11))
+plot(fire_bsc)
+
+fire_bsc_components <- decompose(fire_bsc, type = "multiplicative")
+plot(fire_bsc_components)
+
+
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r time_series, echo=FALSE}
+# Create a ts object
+fire_ts <- ts(fire_month$fires, frequency = 12, start = c(2000, 11))
+plot(fire_ts)
+
+fire_ts_components <- decompose(fire_ts, type = "multiplicative")
+plot(fire_ts_components)
+
+fire_ts_seasadj <- fire_ts / fire_ts_components$seasonal
+plot.ts(fire_ts_seasadj)
+
+
+plot(diff(fire_ts, lag = 1))
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r stationary}
+
+adf.test(fire_ts) # p-value < 0.05 indicates the TS is stationary
+kpss.test(fire_ts)
+
+
