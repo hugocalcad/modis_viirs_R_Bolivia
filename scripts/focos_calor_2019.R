@@ -12,7 +12,7 @@ setwd('C:/Users/migue/Documents/UMSA/Focos_calor')
 
 #Open VIIRS data obtenidos de https://firms.modaps.eosdis.nasa.gov/download/ del 1 de agosto de 2019
 #al 2 de septiembre de 2019
-pcalor_Viirs <- read.csv2("modis_viirs_R_bolivia/data/fire_nrt_V1_69815.csv", stringsAsFactors = F, sep = ',')
+pcalor_Viirs <- read.csv2("fire_nrt_V1_74210.csv", stringsAsFactors = F, sep = ',')
 pcalor_Viirs$longitude <- as.numeric(pcalor_Viirs$longitude)
 pcalor_Viirs$latitude <- as.numeric(pcalor_Viirs$latitude)
 head(pcalor_Viirs)
